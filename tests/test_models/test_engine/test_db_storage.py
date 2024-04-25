@@ -89,23 +89,34 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
-           state = {"name":"Logos"}
-           new_state = State(**state)
-           models.storage.new(new_state)
-           s = models.storage._DBStorage__session
-           r_s = s.query(State).filter_by(id=new_state).first()
-           self.assertEqual(r_s.id, new_state.id)
-           self.assertEqual(r_s.name, new_state.name)
-           self.assertIsNone(r_s)
+        state = {"name":"Logos"}
+        new_state = State(**state)
+        models.storage.new(new_state)
+        s = models.storage._DBStorage__session
+        r_s = s.query(State).filter_by(id=new_state).first()
+        self.assertEqual(r_s.id, new_state.id)
+        self.assertEqual(r_s.name, new_state.name)
+        self.assertIsNone(r_s)
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
-           state = {"name":"Casablanca"}
-           new_state = State(**state)
-           models.storage.new(new_state)
-           models.storage.save()
-           s = models.storage._DBStorage__session
-           r_s = s.query(State).filter_by(id=new_state).first()
-           self.assertEqual(r_s.id, new_state.id)
-           self.assertEqual(r_s.name, new_state.name)
-           self.assertIsNone(r_s)
+        state = {"name":"Casablanca"}
+        new_state = State(**state)
+        models.storage.new(new_state)
+        models.storage.save()
+        s = models.storage._DBStorage__session
+        r_s = s.query(State).filter_by(id=new_state).first()
+        self.assertEqual(r_s.id, new_state.id)
+        self.assertEqual(r_s.name, new_state.name)
+        self.assertIsNone(r_s)
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_save(self):
+        """Test """
+        storage = models.storage
+        storage.reload()
+        state = {"name":"Maldives"}
+        s_i = State(**state_data)
+        r_s = storage.get(State, s_i.id)
+        self.assertEqual(s_i , r_s)
+        f_s_id = storage.get(State, 'id')
+        self.assertEqual(f_s_id,None)
