@@ -147,4 +147,4 @@ class TestDBStorage(unittest.TestCase):
         s_o = storage.count(State)
         self.assertEqual(s_o, len(storage.all(State)))
         all_occurrence = storage.count()
-        self.assertEqual(s_o, len(storage.all()))
+        self.assertEqual(all_occurrence, len(storage.all()))
