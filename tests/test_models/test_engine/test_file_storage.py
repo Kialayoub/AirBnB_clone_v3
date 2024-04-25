@@ -131,4 +131,20 @@ class TestFileStorage(unittest.TestCase):
 
         f_s_id = storage.get(State, 'fake_id')
         self.assertEqual(f_s_id, None)
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Tests method for obtaining an instance db storage."""
+        storage = models.storage
+        storage.reload()
+        data = {"name": "Sudan"}
+        s_i = State(**data)
+        storage.new(s_i)
+        city_data = {"name": "Rocky", "state_id": s_i.id}
+        city_instance = City(**city_data)
+        storage.new(city_instance)
+        storage.save()
+        s_o = storage.count(State)
+        self.assertEqual(s_o, len(storage.all(State)))
+        all_occurrence = storage.count()
+        self.assertEqual(all_occurrence, len(storage.all()))
 
